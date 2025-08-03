@@ -1,28 +1,31 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using NorthwindMvcDemo.Interfaces.IServices;
+using NorthwindMvcDemo.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using NorthwindMvcDemo.Models;
 
 namespace NorthwindMvcDemo.Controllers
 {
     public class EmployeesController : Controller
     {
         private readonly northwindContext _context;
+        private readonly IEmployeesService _employeesService;
 
-        public EmployeesController(northwindContext context)
+        public EmployeesController(northwindContext context, IEmployeesService employeesService)
         {
             _context = context;
+            _employeesService = employeesService;
         }
 
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var northwindContext = _context.Employees.Include(e => e.ReportsToNavigation);
-            return View(await northwindContext.ToListAsync());
+            var emplyees = await _employeesService.GetAllEmployees();
+            return View(emplyees);
         }
 
         // GET: Employees/Details/5

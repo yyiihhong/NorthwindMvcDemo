@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using NorthwindMvcDemo.Interfaces.IRepositories;
+using NorthwindMvcDemo.Interfaces.IServices;
 using NorthwindMvcDemo.Models;
+using NorthwindMvcDemo.Repositories;
+using NorthwindMvcDemo.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +12,9 @@ builder.Services.AddControllersWithViews();
 //µù¥UDbContext
 builder.Services.AddDbContext<northwindContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("northwindDatabase")));
+
+builder.Services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+builder.Services.AddScoped<IEmployeesService, EmployeesService>();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
