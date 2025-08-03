@@ -29,5 +29,17 @@ namespace NorthwindMvcDemo.Repositories
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await _context.Employees.AnyAsync(e => e.EmployeeID == id);
+        }
+        public async Task UpdateAsync(Employees employee)
+        {
+            _context.Update(employee);
+            await _context.SaveChangesAsync();
+        }
+
+       
     }
 }

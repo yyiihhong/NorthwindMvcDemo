@@ -1,4 +1,5 @@
-﻿using NorthwindMvcDemo.Interfaces.IRepositories;
+﻿using Microsoft.EntityFrameworkCore;
+using NorthwindMvcDemo.Interfaces.IRepositories;
 using NorthwindMvcDemo.Interfaces.IServices;
 using NorthwindMvcDemo.Models;
 using NorthwindMvcDemo.ViewModel;
@@ -42,6 +43,24 @@ namespace NorthwindMvcDemo.Services
         {
             // 可以加入商業邏輯驗證，例如檢查是否重複等
             await _employeesRepository.AddAsync(employee);
+        }
+
+        public async Task<bool> UpdateEmployeeAsync(Employees employee)
+        {
+            if (!await _employeesRepository.ExistsAsync(employee.EmployeeID))
+            {
+                return false;
+            }
+
+            try
+            {
+                await _employeesRepository.UpdateAsync(employee);
+                return true;
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                throw; // 或記錄錯誤後再處理
+            }
         }
     }
 }

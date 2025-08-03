@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using NorthwindMvcDemo.Interfaces.IServices;
 using NorthwindMvcDemo.Models;
+using NorthwindMvcDemo.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -64,7 +65,7 @@ namespace NorthwindMvcDemo.Controllers
             return View(employees);
         }
 
-        // GET: Employees/Edit/5
+        // GET: 時進入編輯畫面
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -81,9 +82,7 @@ namespace NorthwindMvcDemo.Controllers
             return View(employees);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+       
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("EmployeeID,LastName,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Photo,Notes,ReportsTo,PhotoPath")] Employees employees)
@@ -95,22 +94,12 @@ namespace NorthwindMvcDemo.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                var success = await _employeesService.UpdateEmployeeAsync(employees);
+                if (!success)
                 {
-                    _context.Update(employees);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeesExists(employees.EmployeeID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
                 return RedirectToAction(nameof(Index));
             }
             ViewData["ReportsTo"] = new SelectList(_context.Employees, "EmployeeID", "EmployeeID", employees.ReportsTo);
