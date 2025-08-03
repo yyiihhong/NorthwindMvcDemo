@@ -17,5 +17,11 @@ namespace NorthwindMvcDemo.Repositories
         {
             return await _context.Employees.ToListAsync();
         }
+
+        public async Task<Employees> GetByIdAsync(int id)
+        {
+            return await _context.Employees
+                .FirstOrDefaultAsync(e => e.EmployeeID == id);
+        }
     }
 }

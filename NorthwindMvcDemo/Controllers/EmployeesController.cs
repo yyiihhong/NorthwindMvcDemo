@@ -32,19 +32,14 @@ namespace NorthwindMvcDemo.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var employees = await _context.Employees
-                .Include(e => e.ReportsToNavigation)
-                .FirstOrDefaultAsync(m => m.EmployeeID == id);
-            if (employees == null)
-            {
+            var details = await _employeesService.GetDetailsAsync(id.Value);
+
+            if (details == null)
                 return NotFound();
-            }
 
-            return View(employees);
+            return View(details);
         }
 
         // GET: Employees/Create
