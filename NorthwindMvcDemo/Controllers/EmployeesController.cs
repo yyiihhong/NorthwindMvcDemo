@@ -42,16 +42,14 @@ namespace NorthwindMvcDemo.Controllers
             return View(details);
         }
 
-        // GET: Employees/Create
+        // 顯示空白表單頁面
         public IActionResult Create()
         {
             ViewData["ReportsTo"] = new SelectList(_context.Employees, "EmployeeID", "EmployeeID");
             return View();
         }
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("EmployeeID,LastName,FirstName,Title,TitleOfCourtesy,BirthDate,HireDate,Address,City,Region,PostalCode,Country,HomePhone,Extension,Photo,Notes,ReportsTo,PhotoPath")] Employees employees)

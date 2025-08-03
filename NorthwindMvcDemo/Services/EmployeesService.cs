@@ -37,5 +37,11 @@ namespace NorthwindMvcDemo.Services
                 return null;
             return employee;
         }
+
+        public async Task CreateEmployeeAsync(Employees employee)
+        {
+            // 可以加入商業邏輯驗證，例如檢查是否重複等
+            await _employeesRepository.AddAsync(employee);
+        }
     }
 }

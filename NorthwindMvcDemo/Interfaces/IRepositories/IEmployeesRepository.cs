@@ -6,5 +6,6 @@ namespace NorthwindMvcDemo.Interfaces.IRepositories
     {
         Task<List<Employees>> GetAllAsync();
         Task<Employees> GetByIdAsync(int id);
+        Task AddAsync(Employees employee);
     }
 }
