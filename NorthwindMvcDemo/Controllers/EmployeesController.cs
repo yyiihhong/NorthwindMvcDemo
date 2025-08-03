@@ -130,13 +130,12 @@ namespace NorthwindMvcDemo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var employees = await _context.Employees.FindAsync(id);
-            if (employees != null)
+            var result = await _employeesService.DeleteByIdAsync(id);
+            if (!result)
             {
-                _context.Employees.Remove(employees);
+                return NotFound();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 

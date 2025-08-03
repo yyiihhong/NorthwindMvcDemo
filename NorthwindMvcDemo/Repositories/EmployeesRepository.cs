@@ -40,6 +40,11 @@ namespace NorthwindMvcDemo.Repositories
             await _context.SaveChangesAsync();
         }
 
-       
+        public async Task DeleteAsync(Employees employee)
+        {
+            _context.Employees.Remove(employee);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

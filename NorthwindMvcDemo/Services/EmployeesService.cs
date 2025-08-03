@@ -62,5 +62,15 @@ namespace NorthwindMvcDemo.Services
                 throw; // 或記錄錯誤後再處理
             }
         }
+
+        public async Task<bool> DeleteByIdAsync(int id)
+        {
+            var employee = await _employeesRepository.GetByIdAsync(id);
+            if (employee == null)
+                return false;
+
+            await _employeesRepository.DeleteAsync(employee);
+            return true;
+        }
     }
 }

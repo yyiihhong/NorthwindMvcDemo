@@ -9,5 +9,6 @@ namespace NorthwindMvcDemo.Interfaces.IServices
         Task<Employees> GetDetailsAsync(int id);
         Task CreateEmployeeAsync(Employees employee);
         Task<bool> UpdateEmployeeAsync(Employees employee);
+        Task<bool> DeleteByIdAsync(int id);
     }
 }
