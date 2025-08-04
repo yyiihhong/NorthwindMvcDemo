@@ -9,6 +9,6 @@ namespace NorthwindMvcDemo.Interfaces.IRepositories
         Task AddAsync(Employees employee);
         Task<bool> ExistsAsync(int id);
         Task UpdateAsync(Employees employee);
-        Task DeleteAsync(Employees employee);
+        Task<bool> DeleteAsync(Employees employee);
     }
 }

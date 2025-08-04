@@ -41,7 +41,7 @@ namespace NorthwindMvcDemo.Services
 
         public async Task CreateEmployeeAsync(Employees employee)
         {
-            // 可以加入商業邏輯驗證，例如檢查是否重複等
+           
             await _employeesRepository.AddAsync(employee);
         }
 
@@ -59,7 +59,7 @@ namespace NorthwindMvcDemo.Services
             }
             catch (DbUpdateConcurrencyException)
             {
-                throw; // 或記錄錯誤後再處理
+                throw;
             }
         }
 
@@ -69,8 +69,10 @@ namespace NorthwindMvcDemo.Services
             if (employee == null)
                 return false;
 
-            await _employeesRepository.DeleteAsync(employee);
-            return true;
+            var delete = await _employeesRepository.DeleteAsync(employee);
+
+            return delete;
         }
+
     }
 }

@@ -40,11 +40,20 @@ namespace NorthwindMvcDemo.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(Employees employee)
+        public async Task<bool> DeleteAsync(Employees employee)
         {
+            bool hasOrders = await _context.Orders.AnyAsync(o => o.EmployeeID == employee.EmployeeID);
+
+            if (hasOrders)
+            {
+                return false;
+            }
+
             _context.Employees.Remove(employee);
             await _context.SaveChangesAsync();
+            return true;
         }
+
 
     }
 }

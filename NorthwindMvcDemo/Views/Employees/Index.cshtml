@@ -1,10 +1,21 @@
 ﻿@model IEnumerable<NorthwindMvcDemo.ViewModel.EmployeesViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "員工資料表";
 }
-
-<h1>Index</h1>
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger mt-3">
+        @TempData["ErrorMessage"]
+    </div>
+}
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-3">
+        @TempData["SuccessMessage"]
+    </div>
+}
+<h1>員工資料表</h1>
 
 <p>
     <a asp-action="Create">新增</a>

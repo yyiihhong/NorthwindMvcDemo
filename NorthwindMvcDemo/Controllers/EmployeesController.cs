@@ -106,7 +106,7 @@ namespace NorthwindMvcDemo.Controllers
             return View(employees);
         }
 
-        // GET: Employees/Delete/5
+        // GET: 時進入刪除畫面
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,23 +125,22 @@ namespace NorthwindMvcDemo.Controllers
             return View(employees);
         }
 
-        // POST: Employees/Delete/5
+        // POST: 刪除資料列
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             var result = await _employeesService.DeleteByIdAsync(id);
+
             if (!result)
             {
-                return NotFound();
+                TempData["ErrorMessage"] = "無法刪除：此員工仍有訂單紀錄。";
+                return RedirectToAction(nameof(Index));
             }
 
+            TempData["SuccessMessage"] = "員工已成功刪除。";
             return RedirectToAction(nameof(Index));
         }
 
-        private bool EmployeesExists(int id)
-        {
-            return _context.Employees.Any(e => e.EmployeeID == id);
-        }
     }
 }
